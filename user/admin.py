@@ -2,7 +2,6 @@ from django.contrib.admin import register
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
 from user.models import User
-from django.contrib import admin
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -18,4 +17,3 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('date_of_birth',)}),
     )
     list_display = UserAdmin.list_display + ('date_of_birth',)
-
