@@ -17,12 +17,12 @@ class Post(BaseModel):
 
     author = models.ForeignKey(User, related_name='posts', on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=100)
+    slug = models.SlugField(default='', blank=True)
     body = models.TextField()
     categories = models.ManyToManyField(Category, related_name='posts')
-    attachment = models.FileField(upload_to='posts/attachments/')
+    attachment = models.FileField(upload_to='posts/attachments/', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=0)
     likes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.title} ({self.get_status_display()})"
-
