@@ -1,24 +1,21 @@
 from django.contrib.admin import register
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
+from django.contrib.auth.forms import UserChangeForm
 from user.models import User
-
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = UserCreationForm.Meta.fields + ('date_of_birth',)
+from django.contrib import admin
 
 
 class CustomUserChangeForm(UserChangeForm):
-    class Meta:
+    class Meta(UserChangeForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields + ('date_of_birth',)
+        fields = '__all__'
 
 
 @register(User)
 class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
     form = CustomUserChangeForm
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('date_of_birth',)}),
+    )
     list_display = UserAdmin.list_display + ('date_of_birth',)
+
