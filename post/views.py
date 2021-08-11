@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, DetailView
 
 from post.forms import PostForm
 from post.models import Post
@@ -26,7 +26,7 @@ class AddPostView(FormView):
         return reverse_lazy('profile', kwargs={'pk': self.request.pk})
 
 
-class UserPostList(ListView):
+class UserPostListView(ListView):
     model = Post
     template_name = 'post/post_list.html'
     context_object_name = 'posts'
@@ -39,3 +39,14 @@ class UserPostList(ListView):
         queryset = super().get_queryset()
         return queryset.filter(author=self.request.user)
 
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'post/all_post_list.html'
+    context_object_name = 'posts'
+
+
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'post/post_detail.html'
+    context_object_name = 'post'
