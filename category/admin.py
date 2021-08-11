@@ -9,6 +9,7 @@ class CategoryProductsInline(admin.TabularInline):
     can_delete = False
     verbose_name = 'Post'
     verbose_name_plural = 'Posts'
+    extra = 0
 
 
 @register(Category)
