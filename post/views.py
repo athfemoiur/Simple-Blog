@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 
 from post.forms import PostForm
+from post.models import Post
 
 
 class AddPostView(FormView):
     form_class = PostForm
-    success_url = reverse_lazy('profile')
     template_name = 'post/add_post.html'
 
     @method_decorator(login_required)
@@ -21,3 +21,21 @@ class AddPostView(FormView):
         post.author = self.request.user
         post.save()
         return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('profile', kwargs={'pk': self.request.pk})
+
+
+class UserPostList(ListView):
+    model = Post
+    template_name = 'post/post_list.html'
+    context_object_name = 'posts'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
+

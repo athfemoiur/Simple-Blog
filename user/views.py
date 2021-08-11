@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import DetailView
@@ -22,12 +22,9 @@ class SignupView(generic.CreateView):
 
 class LoginView(BaseLoginView):
     redirect_authenticated_user = True
-    success_url = reverse_lazy('profile')
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.redirect_authenticated_user and request.user.is_authenticated:
-            return redirect(self.success_url)
-        super().dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse_lazy('profile')
 
 
 class UserProfileView(DetailView):
@@ -38,3 +35,6 @@ class UserProfileView(DetailView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        return self.request.user
