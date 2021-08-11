@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as BaseLoginView
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.generic import DetailView
 from user.forms import CustomUserCreationForm
+from user.models import User
 
 
 class SignupView(generic.CreateView):
@@ -28,6 +30,11 @@ class LoginView(BaseLoginView):
         super().dispatch(request, *args, **kwargs)
 
 
-@login_required
-def profile(request):
-    return HttpResponse(f"{request.user.username}")
+class UserProfileView(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'user/profile/profile.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
