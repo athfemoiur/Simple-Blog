@@ -12,3 +12,5 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'date_of_birth')
         widgets = {'date_of_birth': DateInput()}
+
+

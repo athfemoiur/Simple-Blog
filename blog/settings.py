@@ -1,6 +1,9 @@
 import os
 import django
 from pathlib import Path
+
+from django.urls import reverse_lazy
+
 from local_settings import SECRET_KEY, DEBUG, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,3 +99,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = reverse_lazy('profile')
