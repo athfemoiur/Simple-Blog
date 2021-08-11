@@ -5,6 +5,8 @@
 {% block content %}
 
     <h2>Profile</h2>
+    <br><br>
+    <a href="{% url 'user-post-list' %}">Post List</a>
     <ul>
         <li>{{ user.username }}</li>
         <li>{{ user.first_name }}</li>

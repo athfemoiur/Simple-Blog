@@ -25,5 +25,3 @@ class PostAdmin(admin.ModelAdmin):
     def draft_all_posts(self, request, queryset):
         queryset.update(status=Post.DRAFT)
 
-    def has_view_permission(self, request, obj=None):
-        return False
