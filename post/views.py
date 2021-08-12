@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_GET
 from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
 
 from post.forms import PostForm
@@ -91,3 +92,10 @@ class DeletePostView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})
+
+
+@require_GET
+def search_post(request):
+    title = request.GET['title']
+    posts = Post.objects.filter(status=1, title__icontains=title)
+    return render(request, 'post/search_posts.html', {'title': title, 'posts': posts})
