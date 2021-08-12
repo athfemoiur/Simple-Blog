@@ -26,6 +26,10 @@ INSTALLED_APPS = [
     'category.apps.CategoryConfig'
 ]
 
+AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = reverse_lazy('home-page')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -98,6 +102,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'user.User'
-LOGIN_URL = reverse_lazy('login')
-LOGOUT_REDIRECT_URL = reverse_lazy('profile')
+

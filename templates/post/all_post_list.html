@@ -7,8 +7,9 @@
     {% for post in posts %}
         <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
         <p>{{ post.body }}</p>
-        <p> written by {{ post.author }}</p>
-
+        <p> written by </p> <a href="{% url 'profile' post.author.pk %}">{{ post.author }}</a>
+        <p>----------------------------------------------------------------------------------</p>
+        <br><br>
     {% endfor %}
 
 {% endblock %}

@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ request.user.usernmae }} Profile {% endblock %}
+{% block title %} {{ user.username }} Profile {% endblock %}
 
 {% block content %}
 
-    <h2>Profile</h2>
+    <h2>Profile</h2><br><br>
+    {% if flag %}
+        <a href="{% url 'add-post' %}">Add post (+)</a>
+    {% endif %}
     <br><br>
-    <a href="{% url 'user-post-list' %}">Post List</a>
+    <a href="{% url 'user-post-list' user.pk %}">Post List</a>
     <ul>
         <li>{{ user.username }}</li>
         <li>{{ user.first_name }}</li>

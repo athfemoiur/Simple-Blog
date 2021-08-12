@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
 
 from post.forms import PostForm
 from post.models import Post
@@ -16,14 +16,14 @@ class AddPostView(FormView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_success_url(self):
+        return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})
+
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
         post.save()
         return redirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse_lazy('profile', kwargs={'pk': self.request.pk})
 
 
 class UserPostListView(ListView):
@@ -50,3 +50,21 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post/post_detail.html'
     context_object_name = 'post'
+
+
+class UpdatePostView(UpdateView):
+    model = Post
+    template_name = 'post/update_post.html'
+    fields = ('title', 'status', 'body', 'attachment')
+
+    def get_success_url(self):
+        return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})
+
+
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = 'post/delete_post.html'
+    context_object_name = 'post'
+
+    def get_success_url(self):
+        return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})
