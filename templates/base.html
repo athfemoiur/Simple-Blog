@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% block css %}{% endblock %}
     {% include 'navbar.html' %}
     <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
+<div class="container-lg p-3 my-3 bg-dark text-white">
 
-{% block content %}
-{% endblock %}
 
+    {% block content %}
+    {% endblock %}
+</div>
 </body>
 </html>

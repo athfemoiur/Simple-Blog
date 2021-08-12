@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
 
@@ -30,20 +31,30 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'post/post_list.html'
     context_object_name = 'posts'
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    extra_context = {'access': False}
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(author=self.request.user)
+        queryset = super().get_queryset().filter(author_id=self.kwargs['pk'])
+        if not self.extra_context['access']:
+            queryset = queryset.filter(status=1)
+        return queryset
+
+    def dispatch(self, request, *args, **kwargs):
+        self.extra_context['access'] = False
+        if self.request.user.pk == self.kwargs['pk']:
+            self.extra_context['access'] = True
+        return super().dispatch(request, *args, **kwargs)
 
 
 class PostListView(ListView):
     model = Post
     template_name = 'post/all_post_list.html'
     context_object_name = 'posts'
+
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        query_set = query_set.prefetch_related('categories').filter(status=1)
+        return query_set
 
 
 class PostDetail(DetailView):
@@ -55,7 +66,13 @@ class PostDetail(DetailView):
 class UpdatePostView(UpdateView):
     model = Post
     template_name = 'post/update_post.html'
-    fields = ('title', 'status', 'body', 'attachment')
+    fields = ('title', 'status', 'body', 'attachment', 'categories')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if self.kwargs['pk'] not in [post.pk for post in self.request.user.posts.all()]:
+            return HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})
@@ -65,6 +82,12 @@ class DeletePostView(DeleteView):
     model = Post
     template_name = 'post/delete_post.html'
     context_object_name = 'post'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if self.kwargs['pk'] not in [post.pk for post in self.request.user.posts.all()]:
+            return HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy('user-post-list', kwargs={'pk': self.request.user.pk})

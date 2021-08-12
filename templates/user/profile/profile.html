@@ -4,20 +4,40 @@
 
 {% block content %}
 
-    <h2>Profile</h2><br><br>
-    {% if flag %}
-        <a href="{% url 'add-post' %}">Add post (+)</a>
-    {% endif %}
-    <br><br>
-    <a href="{% url 'user-post-list' user.pk %}">Post List</a>
-    <ul>
-        <li>{{ user.username }}</li>
-        <li>{{ user.first_name }}</li>
-        <li>{{ user.last_name }}</li>
-        <li>{{ user.email }}</li>
-        <li>{{ user.date_of_birth }}
-        <li>{{ user.date_joined }}</li>
-    </ul>
+    <h2>Profile</h2>
+    <br>
+    <div class="row">
+        <div class="col">
+
+            <ul>
+                <li><strong>Username</strong> : {{ user.username }}</li>
+                <li><strong>First name</strong> : {{ user.first_name }}</li>
+                <li><strong>Last name </strong>: {{ user.last_name }}</li>
+                <li><strong>Email </strong>: {{ user.email }}</li>
+                <li><strong>Date of birth</strong> :
+                    {% if user.date_of_birth is None %}
+                        Empty
+                    {% else %}
+                        {{ user.date_of_birth }}
+                    {% endif %}
+                <li><strong>Joined Date </strong>: {{ user.date_joined }}</li>
+            </ul>
+        </div>
+        <div class="col-lg">
+            {% if request.user == user %}
+                <button class="btn btn-info">
+                    <a class="text-decoration-none" href="{% url 'profile-edit' request.user.pk %}">Edit Profile</a>
+                </button>
+            {% endif %}
+            <br><br>
+            <button class="btn btn-info">
+                <a class="text-decoration-none" href="{% url 'user-post-list' user.pk %}">Post List</a>
+            </button>
+        </div>
+
+
+    </div>
+
 
 
 {% endblock %}

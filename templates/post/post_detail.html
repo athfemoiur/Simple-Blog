@@ -5,13 +5,29 @@
 {% block content %}
 
     <p>{{ post.title | title }}</p>
+    {% for ctg in post.categories.all %}
+                <li>
+                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+                </li>
+            {% endfor %}
     <p>{{ post.author }}</p>
-    <p>{{ post.body }}</p>
+    <p>{{ post.body | safe }}</p>
     <br><br>
     {% if post.author == request.user %}
         <a href="{% url 'edit-post' post.pk %}">(Edit)</a>
         <br><br>
         <a href="{% url 'delete-post' post.pk %}">(Delete)</a>
     {% endif %}
+
+    <p>---------------------------------------</p>
+    <h4>Comments</h4>
+    <button>
+    <a href="{% url 'add-comment' post.pk %}">Add comment</a>
+    </button>
+    <br><br>
+    {% for comment in post.comments.all %}
+        <p>({{ comment.user }}) : {{ comment.text }} </p>
+        <p>---------------------------------------------</p>
+    {% endfor %}
 
 {% endblock %}

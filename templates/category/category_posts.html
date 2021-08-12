@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
-{% block title %} All Posts {% endblock %}
+{% block title %} Posts {% endblock %}
 
 {% block content %}
-    <h2>All Post list</h2>
+    <h2>Posts</h2>
     <br>
     {% for post in posts %}
         <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
-        {% for ctg in post.categories.all %}
-                <li>
-                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
-                </li>
-            {% endfor %}
         <p>{{ post.body | truncatewords:"100" }}</p>
         <p> written by </p> <a href="{% url 'profile' post.author.pk %}">{{ post.author }}</a>
         <p>----------------------------------------------------------------------------------</p>

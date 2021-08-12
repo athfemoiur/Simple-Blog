@@ -1,5 +1,11 @@
-from django.shortcuts import render
+from post.models import Post
+from post.views import PostListView
 
 
-def home_page(request):
-    return render(request, 'home/home_page.html')
+class LatestPostListView(PostListView):
+    ordering = ['-created_time']
+    template_name = 'home/home_page.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset[:5]

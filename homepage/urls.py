@@ -1,6 +1,6 @@
 from django.urls import path
-from homepage.views import home_page
+from homepage.views import LatestPostListView
 
 urlpatterns = [
-    path('', home_page, name='home-page')
+    path('', LatestPostListView.as_view(), name='home-page')
 ]

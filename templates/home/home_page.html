@@ -3,6 +3,24 @@
 
 {% block content %}
     <h3> Home Page </h3>
-
+    <br>
+    <h4>Latest Posts</h4>
+    <br>
+    <div></div>
+    {% for post in posts %}
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
+        <br><br>
+        <ul>
+            {% for ctg in post.categories.all %}
+                <li>
+                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>{{ post.body | truncatewords:"100" }}</p>
+        <p> written by : </p> <a href="{% url 'profile' post.author.pk %}">{{ post.author }}</a>
+        <p>---------------------------------------------------------------</p>
+        <br><br>
+    {% endfor %}
 
 {% endblock %}

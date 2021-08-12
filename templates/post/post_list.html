@@ -5,10 +5,17 @@
     <h2>Post list</h2>
     <br>
     {% for post in posts %}
-        <h4>{{ post.title | title }}</h4>
-        <p>{{ post.body }}</p>
-        <a href="{% url 'edit-post' post.pk %}">(Edit)</a>
-        <a href="{% url 'delete-post' post.pk %}">(Delete)</a>
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
+        {% for ctg in post.categories.all %}
+                <li>
+                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+                </li>
+            {% endfor %}
+        <p>{{ post.body|truncatewords:"100" }}</p>
+        {% if access %}
+            <a href="{% url 'edit-post' post.pk %}">(Edit)</a>
+            <a href="{% url 'delete-post' post.pk %}">(Delete)</a>
+        {% endif %}
         <p>----------------------------------------------</p>
 
     {% endfor %}
