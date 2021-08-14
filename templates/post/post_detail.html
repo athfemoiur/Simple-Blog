@@ -5,12 +5,18 @@
 {% block content %}
 
     <p>{{ post.title | title }}</p>
+
+    {% if post.attachment.url %}
+        <img src="{{ post.attachment.url }}" class="rounded float-left" alt="Post Picture">
+        <br><br>
+    {% endif %}
     {% for ctg in post.categories.all %}
-                <li>
-                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
-                </li>
-            {% endfor %}
-    <p>{{ post.author }}</p>
+        <li>
+            <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+        </li>
+    {% endfor %}
+    <br>
+    <p> Written by : {{ post.author }}</p>
     <p>{{ post.body | safe }}</p>
     <br><br>
     {% if post.author == request.user %}
@@ -22,7 +28,7 @@
     <p>---------------------------------------</p>
     <h4>Comments</h4>
     <button>
-    <a href="{% url 'add-comment' post.pk %}">Add comment</a>
+        <a href="{% url 'add-comment' post.pk %}">Add comment</a>
     </button>
     <br><br>
     {% for comment in post.comments.all %}

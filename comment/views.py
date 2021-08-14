@@ -1,12 +1,12 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
+from comment.forms import CommentForm
 from comment.models import Comment
 
 
 class CreateCommentView(CreateView):
     model = Comment
-    fields = ('text',)
+    form_class = CommentForm
     template_name = 'comment/add_comment.html'
 
     def form_valid(self, form):
