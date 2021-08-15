@@ -23,7 +23,7 @@ class Post(BaseModel):
     categories = models.ManyToManyField(Category, related_name='posts')
     attachment = models.FileField(upload_to='posts/attachments/', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=0)
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='liked_posts')
 
     def __str__(self):
         return f"{self.title} ({self.get_status_display()})"
@@ -31,3 +31,7 @@ class Post(BaseModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
         super().save(*args, **kwargs)
+
+    @property
+    def like_count(self):
+        return self.likes.count()

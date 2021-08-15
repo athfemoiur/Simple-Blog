@@ -23,15 +23,15 @@
                 <li><strong>Joined Date </strong>: {{ user.date_joined }}</li>
             </ul>
         </div>
-        <div class="col-lg">
+        <div class="flex-column-reverse">
             {% if request.user == user %}
                 <button class="btn btn-info">
-                    <a class="text-decoration-none" href="{% url 'profile-edit' request.user.pk %}">Edit Profile</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'profile-edit' request.user.pk %}">Edit Profile</a>
                 </button>
             {% endif %}
             <br><br>
             <button class="btn btn-info">
-                <a class="text-decoration-none" href="{% url 'user-post-list' user.pk %}">Post List</a>
+                <a class="text-decoration-none text-dark"  href="{% url 'user-post-list' user.pk %}">Post List</a>
             </button>
         </div>
 

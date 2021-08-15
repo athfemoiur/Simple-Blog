@@ -9,6 +9,6 @@ from user.models import User
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('date_of_birth',)}),
+        (None, {'fields': ('date_of_birth', 'avatar')}),
     )
     list_display = UserAdmin.list_display + ('date_of_birth',)

@@ -6,22 +6,26 @@
     <br>
     <h4>Latest Posts</h4>
     <br>
-    <div></div>
     <ul class="list-group">
         {% for post in posts %}
             <li class="list-group-item list-group-item-dark">
-                <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
-                <br><br>
+                <a class="text-decoration-none"
+                   href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a><br><br>
+                <p>Posted at : {{ post.created_time }}</p>
+                <p>Modified at : {{ post.modified_time }}</p>
+
                 <ul>
                     {% for ctg in post.categories.all %}
                         <li>
-                            <a class="text-dark" href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+                            <a class="text-decoration-none "
+                               href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
                         </li>
                     {% endfor %}
                 </ul>
-            <br>
+                <br>
                 <p>{{ post.body | truncatewords:"100" }}</p>
-                <p> written by : </p> <a href="{% url 'profile' post.author.pk %}">{{ post.author }}</a>
+                <p> written by : </p> <a class="text-decoration-none"
+                                         href="{% url 'profile' post.author.pk %}">{{ post.author }}</a>
                 <br><br>
             </li>
 

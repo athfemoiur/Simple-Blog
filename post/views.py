@@ -1,11 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-from django.shortcuts import redirect, render
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET
 from django.views.generic import FormView, ListView, DetailView, UpdateView, DeleteView
-
 from post.forms import PostForm
 from post.models import Post
 
@@ -38,6 +37,10 @@ class UserPostListView(ListView):
         queryset = super().get_queryset().filter(author_id=self.kwargs['pk'])
         if not self.extra_context['access']:
             queryset = queryset.filter(status=1)
+        else:
+            get_dict = {k: int(v) for k, v in self.request.GET.items()}
+            if get_dict.keys():
+                queryset = queryset.filter(**get_dict)
         return queryset
 
     def dispatch(self, request, *args, **kwargs):
@@ -62,6 +65,11 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post/post_detail.html'
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['liked'] = self.object.likes.filter(id=self.request.user.id).exists()
+        return context
 
 
 class UpdatePostView(UpdateView):
@@ -99,3 +107,15 @@ def search_post(request):
     title = request.GET['title']
     posts = Post.objects.filter(status=1, title__icontains=title)
     return render(request, 'post/search_posts.html', {'title': title, 'posts': posts})
+
+
+@login_required
+def post_like(request):
+    post_id = request.POST['post_id']
+    post = get_object_or_404(Post, id=post_id)
+    liked = post.likes.filter(id=request.user.id)
+    if liked:
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse_lazy('post-detail', kwargs={'pk': post_id}))

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from comment.views import CreateCommentView
-from post.views import AddPostView, PostListView, PostDetail, UpdatePostView, DeletePostView, search_post
+from post.views import AddPostView, PostListView, PostDetail, UpdatePostView, DeletePostView, search_post, post_like
 
 urlpatterns = [
     path('add/', AddPostView.as_view(), name='add-post'),
@@ -11,5 +11,5 @@ urlpatterns = [
     path('<int:pk>/add/comment/', CreateCommentView.as_view(), name='add-comment'),
     path('delete/<int:pk>', DeletePostView.as_view(), name='delete-post'),
     path('search/', search_post, name='search-post'),
-
+    path('like/', post_like, name='post-like'),
 ]

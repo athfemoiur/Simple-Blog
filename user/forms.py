@@ -9,7 +9,7 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(
         label=_("Password"),
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class':'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control'}),
     )
 
 
@@ -19,8 +19,9 @@ class DateInput(forms.DateInput):
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
+        avatar = forms.FileField()
         model = User
-        fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'date_of_birth')
+        fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'avatar', 'date_of_birth')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'password1': forms.TextInput(attrs={'class': 'form-control'}),

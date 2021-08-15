@@ -6,13 +6,13 @@
 
     <p>{{ post.title | title }}</p>
 
-    {% if post.attachment.url %}
+    {% if post.attachment %}
         <img src="{{ post.attachment.url }}" class="rounded float-left" alt="Post Picture">
         <br><br>
     {% endif %}
     {% for ctg in post.categories.all %}
         <li>
-            <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+            <a class="text-decoration-none" href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
         </li>
     {% endfor %}
     <br>
@@ -26,11 +26,33 @@
     {% endif %}
 
     <p>---------------------------------------</p>
+    {% if request.user.is_authenticated %}
+        {% if liked %}
+            <form method="post" action="{% url 'post-like' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm" name="post_id" value="{{ post.pk }}">Unlike
+                </button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'post-like' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm" name="post_id" value="{{ post.pk }}">Like</button>
+            </form>
+        {% endif %}
+        <br>
+    {% endif %}
+    {% if post.like_count %}
+        <p>Liked by {{ post.like_count }} people</p>
+        <br>
+    {% endif %}
+
     <h4>Comments</h4>
-    <button>
-        <a href="{% url 'add-comment' post.pk %}">Add comment</a>
-    </button>
-    <br><br>
+    {% if request.user.is_authenticated %}
+        <button>
+            <a class="text-decoration-none" href="{% url 'add-comment' post.pk %}">Add comment</a>
+        </button>
+        <br><br>
+    {% endif %}
     {% for comment in post.comments.all %}
         <p>({{ comment.user }}) : {{ comment.text }} </p>
         <p>---------------------------------------------</p>

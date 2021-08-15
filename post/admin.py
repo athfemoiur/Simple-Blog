@@ -24,4 +24,3 @@ class PostAdmin(admin.ModelAdmin):
     @admin.action(description='Make all posts, draft')
     def draft_all_posts(self, request, queryset):
         queryset.update(status=Post.DRAFT)
-

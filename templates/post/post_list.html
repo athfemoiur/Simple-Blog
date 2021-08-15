@@ -4,20 +4,35 @@
 {% block content %}
     <h2>Post list</h2>
     <br>
-    {% for post in posts %}
-        <a href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a>
-        {% for ctg in post.categories.all %}
-                <li>
-                    <a href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
-                </li>
-            {% endfor %}
-        <p>{{ post.body|truncatewords:"100" }}</p>
-        {% if access %}
-            <a href="{% url 'edit-post' post.pk %}">(Edit)</a>
-            <a href="{% url 'delete-post' post.pk %}">(Delete)</a>
-        {% endif %}
-        <p>----------------------------------------------</p>
+    {% if access %}
+        <a href="?status=0">Drafts</a>
+        <br>
+        <br>
+    {% endif %}
 
-    {% endfor %}
+
+    <ul class="list-group">
+        {% for post in posts %}
+            <li class="list-group-item list-group-item-dark">
+                <a class="text-decoration-none"
+                   href="{% url 'post-detail' post.pk %}">{{ post.title | title }}</a><br><br>
+                <p>Posted at : {{ post.created_time }}</p>
+                <p>Modified at : {{ post.modified_time }}</p>
+
+                <ul>
+                    {% for ctg in post.categories.all %}
+                        <li>
+                            <a class="text-decoration-none "
+                               href="{% url 'category-posts' ctg.pk %}">{{ ctg }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <p>{{ post.body | truncatewords:"100" }}</p>
+            </li>
+
+        {% endfor %}
+
+    </ul>
 
 {% endblock %}
