@@ -57,6 +57,12 @@ DB_USER = 'the user of the postgres which you created'
 DB_PASSWORD = 'the password of that user'
 DB_HOST = 'localhost' # can be changed
 DB_PORT = 5432 # can be changed
+
+LOCAL_EMAIL_HOST = '
+LOCAL_EMAIL_PORT = ''
+LOCAL_EMAIL_USE_TLS = True
+LOCAL_EMAIL_HOST_USER = ''
+LOCAL_EMAIL_HOST_PASSWORD = ''
 ```
 Then you should have a superuser for accessing the admin panel 
 ```bash
