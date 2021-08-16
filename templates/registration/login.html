@@ -6,10 +6,6 @@
 {% endblock %}
 {% block title %} Login {% endblock %}
 {% block content %}
-    {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
-
     <div id="login">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
@@ -30,6 +26,9 @@
 
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                             </div>
+                            {% if form.errors %}
+                                <p>Your username and password didn't match. Please try again.</p>
+                            {% endif %}
                             <div id="register-link" class="text-right">
                                 <a href="{% url 'signup' %}" class="text-info">Register here</a>
                             </div>
