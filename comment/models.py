@@ -10,4 +10,4 @@ class Comment(BaseModel):
     user = models.ForeignKey(User, related_name='comments', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"({self.user} , {self.post}) --> {self.post}"
+        return f"({self.user}) --> {self.post}"
