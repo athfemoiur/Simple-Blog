@@ -5,7 +5,16 @@
     <h2>Post list</h2>
     <br>
     {% if access %}
-        <a href="?status=0">Drafts</a>
+        <a class="text-decoration-none" href="?">All</a>
+        <br>
+        <br>
+        <a class="text-decoration-none" href="?status=0">Drafts</a>
+        <br>
+        <br>
+        <a class="text-decoration-none" href="?status=1">Published</a>
+        <br>
+        <br>
+        <a class="text-decoration-none" href="?status=2">Archived</a>
         <br>
         <br>
     {% endif %}
