@@ -62,8 +62,9 @@
                     </li>
                 {% endif %}
             </ul>
-            <form class="d-flex" method="get" action="{% url 'search-post'%}">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="title">
+            <form class="d-flex" method="get" action="{% url 'search-post' %}">
+                <input class="form-control me-2" type="search" placeholder="Search for post's title" aria-label="Search"
+                       name="title">
                 <button class="btn btn-danger  " type="submit">Search</button>
             </form>
         </div>
