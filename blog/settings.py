@@ -4,7 +4,8 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
-from local_settings import SECRET_KEY, DEBUG, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
+from local_settings import SECRET_KEY, DEBUG, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, LOCAL_EMAIL_HOST, \
+    LOCAL_EMAIL_PORT, LOCAL_EMAIL_USE_TLS, LOCAL_EMAIL_HOST_USER, LOCAL_EMAIL_HOST_PASSWORD
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -102,3 +103,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = LOCAL_EMAIL_HOST
+EMAIL_PORT = LOCAL_EMAIL_PORT
+EMAIL_USE_TLS = LOCAL_EMAIL_USE_TLS
+EMAIL_HOST_USER = LOCAL_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = LOCAL_EMAIL_HOST_PASSWORD
+

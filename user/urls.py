@@ -1,8 +1,8 @@
 from django.urls import path
-
 from post.views import UserPostListView
 from user.views import SignupView, LoginView, UserProfileView, UpdateProfileView
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+    PasswordResetCompleteView
 
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
@@ -11,5 +11,8 @@ urlpatterns = [
     path('<int:pk>/profile-edit', UpdateProfileView.as_view(), name='profile-edit'),
     path('<int:pk>/posts/', UserPostListView.as_view(), name='user-post-list'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path
+    path('reset-password', PasswordResetView.as_view(), name='reset_password'),
+    path('reset-password-sent', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset-password-change', PasswordResetCompleteView.as_view(), name='password_reset_complete')
 ]

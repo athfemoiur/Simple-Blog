@@ -29,9 +29,13 @@
                             {% if form.errors %}
                                 <p>Your username and password didn't match. Please try again.</p>
                             {% endif %}
+                            <div id="register-link" class="text-left">
+                                <a href="{% url 'reset_password' %}" class="text-info text-decoration-none">Forgot
+                                    password </a>
+                            </div>
                             <div id="register-link" class="text-right">
                                 <p>Don't have an account?</p>
-                                <a  href="{% url 'signup' %}" class="text-info text-decoration-none">Register here</a>
+                                <a href="{% url 'signup' %}" class="text-info text-decoration-none">Register here</a>
                             </div>
                         </form>
                     </div>
