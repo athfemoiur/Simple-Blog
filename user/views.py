@@ -4,8 +4,6 @@ from django.contrib.auth.views import PasswordChangeView as BasePasswordChangeVi
 from django.http import HttpResponse, HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import DetailView, CreateView, UpdateView
 from user.forms import CustomUserCreationForm, LoginForm
 from user.models import User

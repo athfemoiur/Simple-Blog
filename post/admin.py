@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import register
-
 from comment.models import Comment
 from post.models import Post
 
@@ -46,3 +45,4 @@ class PostAdmin(admin.ModelAdmin):
     @admin.action(description='Make all posts, draft')
     def draft_all_posts(self, request, queryset):
         queryset.update(status=Post.DRAFT)
+

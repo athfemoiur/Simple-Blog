@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -9,4 +10,3 @@ class User(AbstractUser):
 
     def get_date_of_birth(self):
         return self.date_of_birth
-
