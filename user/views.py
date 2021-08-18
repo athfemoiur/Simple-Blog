@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import PasswordChangeView as BasePasswordChangeView
 from django.http import HttpResponse, HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import DetailView, CreateView, UpdateView
 from user.forms import CustomUserCreationForm, LoginForm
 from user.models import User
@@ -41,3 +44,10 @@ class UpdateProfileView(UpdateView):
         if request.user.pk != self.kwargs['pk']:
             return HttpResponseForbidden()
         return super().dispatch(request, *args, **kwargs)
+
+
+class PasswordChangeView(BasePasswordChangeView):
+    template_name = 'user/change_password.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})

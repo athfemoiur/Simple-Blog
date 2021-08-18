@@ -26,12 +26,17 @@
         <div class="flex-column-reverse">
             {% if request.user == user %}
                 <button class="btn btn-info">
-                    <a class="text-decoration-none text-dark" href="{% url 'profile-edit' request.user.pk %}">Edit Profile</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'profile-edit' request.user.pk %}">Edit
+                        Profile</a>
+                </button><br><br>
+                <button class="btn btn-danger">
+                    <a class="text-decoration-none text-dark" href="{% url 'password-change' %}">Change
+                        Password</a>
                 </button>
             {% endif %}
             <br><br>
             <button class="btn btn-info">
-                <a class="text-decoration-none text-dark"  href="{% url 'user-post-list' user.pk %}">Post List</a>
+                <a class="text-decoration-none text-dark" href="{% url 'user-post-list' user.pk %}">Post List</a>
             </button>
         </div>
 
