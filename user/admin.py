@@ -18,4 +18,3 @@ class CustomUserAdmin(UserAdmin):
         return mark_safe(f"<a href=/user/{obj.pk}/posts>Show Posts</a>")
 
     show_posts.short_description = 'posts'
-

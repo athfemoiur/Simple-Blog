@@ -34,7 +34,7 @@ class UserPostListView(ListView):
     extra_context = {'access': False}
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(author_id=self.kwargs['pk'])
+        queryset = super().get_queryset().prefetch_related('categories').filter(author_id=self.kwargs['pk'])
         if not self.extra_context['access']:
             queryset = queryset.filter(status=1)
         else:
